@@ -11,7 +11,6 @@ def test_add_task_persists_and_assigns_next_id(tmp_path):
     tasks = ListaDeTareas(data_file)
     first = tasks.agregar("  Estudiar Python  ", "Practicar", "alta")
     second = tasks.agregar("Leer", prioridad="baja")
-
     reloaded = ListaDeTareas(data_file)
     assert first.id == 1
     assert first.titulo == "Estudiar Python"
@@ -50,8 +49,9 @@ def test_invalid_task_data_is_rejected(tmp_path):
         tasks.agregar("   ")
     with pytest.raises(ValueError):
         tasks.agregar("Tarea", prioridad="urgente")
+    task = tasks.agregar("Tarea válida")
     with pytest.raises(ValueError):
-        tasks.editar(1, titulo=" ")
+        tasks.editar(task.id, titulo=" ")
 
 
 def test_corrupt_json_is_not_overwritten(tmp_path):
